@@ -1,6 +1,6 @@
 # echo-spa-middleware
 
-This [echo](https://echo.labstack.com/) middleware is specifically designed to resolve the `index.html` in a static file store with logic to support client side routing.
+This [echo](https://echo.labstack.com/) middleware for use with single page applications (SPA). It resolves the `index.html` in a static file store with logic to support client side routing and optional sub domain path prefixing for branch builds.
 
 # Configuration
 
