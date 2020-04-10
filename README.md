@@ -43,4 +43,4 @@ http://mybranch_build.example.com/img/logo.png | /mybranch_build/img/logo.png
 
 # License
 
-This application is released under Apache 2.0 license and is copyright [Mark Wolfe](https://www.wolfe.id.au).
+This library is released under Apache 2.0 license and is copyright [Mark Wolfe](https://www.wolfe.id.au).
