@@ -18,7 +18,7 @@ So with a configuration of the following:
 ```go
 e := echo.New()
 e.Pre(echomiddleware.AddTrailingSlash()) // required to ensure trailing slash is appended
-e.Use(spa.HTTPSRedirectWithConfig(spa.RedirectConfig{
+e.Use(spa.IndexWithConfig(spa.RedirectConfig{
   DomainName: "www.example.com",
   SubDomainMode: true,
 }))
