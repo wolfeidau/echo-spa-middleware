@@ -46,7 +46,7 @@ func IndexWithConfig(config IndexConfig) echo.MiddlewareFunc {
 
 			// does the path end in slash?
 			if strings.HasSuffix(p, "/") {
-				u.Path = path.Join("/", pathPrefix, p, "index.html")
+				u.Path = path.Join("/", pathPrefix, "index.html")
 			} else {
 				u.Path = path.Join("/", pathPrefix, p)
 			}

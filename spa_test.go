@@ -81,17 +81,17 @@ func TestIndexSubdomain(t *testing.T) {
 		{
 			name:     "should rewrite with subdomain prefix",
 			url:      "http://sup.app.example.com/add-slash/",
-			wantPath: "/sup/add-slash/index.html",
+			wantPath: "/sup/index.html",
 		},
 		{
 			name:     "should rewrite with no prefix",
 			url:      "http://app.example.com/add-slash/",
-			wantPath: "/add-slash/index.html",
+			wantPath: "/index.html",
 		},
 		{
 			name:     "should rewrite mismatched domain with no prefix",
 			url:      "http://not.example.com/add-slash/",
-			wantPath: "/add-slash/index.html",
+			wantPath: "/index.html",
 		},
 		{
 			name:     "should not rewrite with no trailing slash",
@@ -102,6 +102,11 @@ func TestIndexSubdomain(t *testing.T) {
 			name:     "should not rewrite subdomain prefix with no trailing slash",
 			url:      "http://customer.app.example.com/add-slash.gif",
 			wantPath: "/customer/add-slash.gif",
+		},
+		{
+			name:     "should not rewrite subdomain prefix with no trailing slash",
+			url:      "http://customer.app.example.com/add-slash/",
+			wantPath: "/customer/index.html",
 		},
 	}
 

@@ -1,6 +1,6 @@
 # echo-spa-middleware
 
-This middleware is specifically designed to resolve the `index.html` given a few parameters and is typical of the logic used to locate and serve an SPA index files.
+This [echo](https://echo.labstack.com/) middleware is specifically designed to resolve the `index.html` in a static file store with logic to support client side routing.
 
 # Configuration
 
