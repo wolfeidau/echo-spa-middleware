@@ -1,4 +1,4 @@
-module github.com/wolfeidau/echo-s3-spa-middleware
+module github.com/wolfeidau/echo-spa-middleware
 
 go 1.14
 
