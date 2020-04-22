@@ -41,7 +41,8 @@ func IndexWithConfig(config IndexConfig) echo.MiddlewareFunc {
 			u := c.Request().URL
 
 			if config.SubDomainMode {
-				pathPrefix = extractPathPrefix(config.DomainName, c.Request().Host)
+				// if we use host it can include the port, hostname:port, whereas hostname is just the hostname
+				pathPrefix = extractPathPrefix(config.DomainName, c.Request().URL.Hostname())
 			}
 
 			// does the path end in slash?

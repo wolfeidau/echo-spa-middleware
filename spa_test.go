@@ -80,7 +80,12 @@ func TestIndexSubdomain(t *testing.T) {
 	}{
 		{
 			name:     "should rewrite with subdomain prefix",
-			url:      "http://sup.app.example.com/add-slash/",
+			url:      "https://sup.app.example.com/add-slash/",
+			wantPath: "/sup/index.html",
+		},
+		{
+			name:     "should rewrite with subdomain prefix",
+			url:      "http://sup.app.example.com:80/add-slash/",
 			wantPath: "/sup/index.html",
 		},
 		{
