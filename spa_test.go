@@ -66,17 +66,11 @@ func TestIndexSubdomain(t *testing.T) {
 
 	assert := require.New(t)
 
-	e := echo.New()
-
-	e.Use(IndexWithConfig(IndexConfig{
-		DomainName:    "app.example.com",
-		SubDomainMode: true,
-	}))
-
 	tests := []struct {
-		name     string
-		url      string
-		wantPath string
+		name      string
+		url       string
+		indexFile string
+		wantPath  string
 	}{
 		{
 			name:     "should rewrite with subdomain prefix",
@@ -84,9 +78,15 @@ func TestIndexSubdomain(t *testing.T) {
 			wantPath: "/sup/index.html",
 		},
 		{
-			name:     "should rewrite with subdomain prefix",
+			name:     "should rewrite with subdomain prefix and avoid port for hostname",
 			url:      "http://sup.app.example.com:80/add-slash/",
 			wantPath: "/sup/index.html",
+		},
+		{
+			name:      "should rewrite with subdomain prefix with custom indexfile",
+			url:       "http://sup.app.example.com:80/add-slash/",
+			indexFile: "login.html",
+			wantPath:  "/sup/login.html",
 		},
 		{
 			name:     "should rewrite with no prefix",
@@ -117,6 +117,13 @@ func TestIndexSubdomain(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			e := echo.New()
+
+			e.Use(IndexWithConfig(IndexConfig{
+				DomainName:    "app.example.com",
+				SubDomainMode: true,
+				IndexFilename: tt.indexFile,
+			}))
 
 			req, err := http.NewRequest(http.MethodGet, tt.url, nil)
 			assert.NoError(err)

@@ -8,6 +8,9 @@ import (
 	echomiddleware "github.com/labstack/echo/v4/middleware"
 )
 
+// DefaultIndexFilename the filename used as the default index
+const DefaultIndexFilename = "index.html"
+
 // IndexConfig defines the config for the middleware which determines the path to load
 // the SPA index file
 type IndexConfig struct {
@@ -17,21 +20,28 @@ type IndexConfig struct {
 	// This is required to support redirects and branch builds
 	DomainName string
 
-	// This can enabled to support serving of branch builds from the s3 bucket
+	// This can enabled to support serving of branch builds from a folder in a static files store or route
 	SubDomainMode bool
+
+	// The name of the file used as the index, defaults to index.html
+	IndexFilename string
 }
 
 // IndexWithConfig configure the index middleware
-func IndexWithConfig(config IndexConfig) echo.MiddlewareFunc {
+func IndexWithConfig(cfg IndexConfig) echo.MiddlewareFunc {
 
-	if config.Skipper == nil {
-		config.Skipper = echomiddleware.DefaultSkipper
+	if cfg.Skipper == nil {
+		cfg.Skipper = echomiddleware.DefaultSkipper
+	}
+
+	if cfg.IndexFilename == "" {
+		cfg.IndexFilename = DefaultIndexFilename
 	}
 
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 
-			if config.Skipper(c) {
+			if cfg.Skipper(c) {
 				return next(c)
 			}
 
@@ -40,14 +50,14 @@ func IndexWithConfig(config IndexConfig) echo.MiddlewareFunc {
 			p := c.Request().URL.Path
 			u := c.Request().URL
 
-			if config.SubDomainMode {
+			if cfg.SubDomainMode {
 				// if we use host it can include the port, hostname:port, whereas hostname is just the hostname
-				pathPrefix = extractPathPrefix(config.DomainName, c.Request().URL.Hostname())
+				pathPrefix = extractPathPrefix(cfg.DomainName, c.Request().URL.Hostname())
 			}
 
 			// does the path end in slash?
 			if strings.HasSuffix(p, "/") {
-				u.Path = path.Join("/", pathPrefix, "index.html")
+				u.Path = path.Join("/", pathPrefix, cfg.IndexFilename)
 			} else {
 				u.Path = path.Join("/", pathPrefix, p)
 			}
